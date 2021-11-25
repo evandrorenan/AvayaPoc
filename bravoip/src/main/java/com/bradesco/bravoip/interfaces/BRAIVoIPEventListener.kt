@@ -1,14 +1,12 @@
 package com.bradesco.bravoip.interfaces
 
-interface BRAIVoIPCallEventListener {
+interface BRAIVoIPEventListener {
 
-    fun onReadyToCall()
+    fun onAuthTokenGenerated(token: String)
 
     fun onCallInitiating()
 
     fun onCallActive()
 
     fun onCallAudioMuteStatusChanged(muted: Boolean)
-
-    fun onCallFailed(error: BRAIVoIPCallError)
 }

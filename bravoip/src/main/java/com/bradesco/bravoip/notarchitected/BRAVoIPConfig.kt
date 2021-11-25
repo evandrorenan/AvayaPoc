@@ -1,19 +1,19 @@
-package com.bradesco.bravoip.impl.avaya.infrastructure.interfaces
+package com.bradesco.bravoip.notarchitected
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-internal class BRAVoIPRemoteConfig (
+internal class BRAVoIPConfig (
     @field:SerializedName("connection") var connection: BRAVoipCallWork
 ) : Serializable {
 
     class BRAVoipCallWork (
         @field:SerializedName("contextName")  var contextName: String,
         @field:SerializedName("platformName") var platformName: String,
-        @field:SerializedName("client")       var client: BRAVoIPCallClient
+        @field:SerializedName("client")       var client: BRAVoIPTokenRequest
     ) : Serializable {
 
-        class BRAVoIPCallClient(
+        class BRAVoIPTokenRequest(
             @field:SerializedName("communicationServer") var communicationServer: BRAVoIPServer,
             @field:SerializedName("communicationServer") var gatewayServer: BRAVoIPServer
         ) : Serializable {

@@ -1,11 +1,12 @@
 package com.bradesco.bravoip.manager
 
-import android.app.Activity
-import com.bradesco.bravoip.impl.avaya.di.braVoIPKoinModuleMain
-import com.bradesco.bravoip.impl.avaya.framework.AVActivityStore
+import com.bradesco.bravoip.impl.avaya.di.braVoIPKoinMainModule
+import com.bradesco.bravoip.impl.avaya.domain.usecases.AVITokenRequestUseCase
 import com.bradesco.bravoip.impl.avaya.presentation.AVVoIPImpl
 import com.bradesco.bravoip.interfaces.BRAIVoIP
+import com.bradesco.bravoip.interfaces.BRAIVoIPEventListener
 import org.koin.core.context.loadKoinModules
+import org.koin.java.KoinJavaComponent.get
 
 class BRAVoIPManager {
 
@@ -16,13 +17,14 @@ class BRAVoIPManager {
     companion object {
         private lateinit var braVoIP: BRAIVoIP
         private lateinit var INSTANCE: BRAVoIPManager
-        private lateinit var avActivityStore: AVActivityStore
+        private lateinit var braVoIPStore: BRAVoIPStore
 
-        fun getInstance(activity: Activity): BRAVoIPManager {
-            if (!::avActivityStore.isInitialized) {
+        fun getInstance(eventListener: BRAIVoIPEventListener): BRAVoIPManager {
+            if (!::braVoIPStore.isInitialized) {
                 getInstance()
             }
-            avActivityStore.setActivity(activity)
+            braVoIPStore.setEventListener(eventListener)
+
             return getInstance()
         }
 
@@ -30,14 +32,18 @@ class BRAVoIPManager {
 
             if (!this::INSTANCE.isInitialized) {
                 loadKoinModules(
-                    arrayListOf(braVoIPKoinModuleMain)
+                    arrayListOf(braVoIPKoinMainModule)
                 )
             }
 
             INSTANCE = BRAVoIPManager()
 
-            avActivityStore = AVActivityStore()
-            braVoIP = AVVoIPImpl()
+            braVoIPStore = BRAVoIPStore()
+
+            braVoIP = AVVoIPImpl(
+                get(AVITokenRequestUseCase::class.java)
+            )
+
             return INSTANCE
         }
     }

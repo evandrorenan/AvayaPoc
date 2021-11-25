@@ -1,4 +1,4 @@
-package com.bradesco.bravoip.impl.avaya.presentation.listeners
+package com.bradesco.bravoip.notarchitected.listeners
 
 import com.avaya.ocs.Services.Work.Enums.AudioDeviceError
 import com.avaya.ocs.Services.Work.Enums.AudioDeviceType

@@ -34,21 +34,28 @@ android {
 
 dependencies {
 
-    implementation files('../app/libs/oceanacustomerwebvoicevideo.aar')
-//    implementation(name: 'oceanacustomerwebvoicevideo', ext: 'aar')
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.4.1'
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    //Avaya
+    implementation files('../app/libs/oceanacustomerwebvoicevideo.aar')
+
+    //Retrofit
+    def retrofit_version = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    //Koin
     def koin_version = '2.1.6'
     implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-android:$koin_version"
-//    implementation "org.koin:koin-androidx-scope:$koin_version"
-//    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
+    //Coroutines
+    def coroutines_version = '2.9.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

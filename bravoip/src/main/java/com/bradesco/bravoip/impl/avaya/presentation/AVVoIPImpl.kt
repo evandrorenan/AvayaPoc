@@ -1,6 +1,5 @@
 package com.bradesco.bravoip.impl.avaya.presentation
 
-import com.avaya.ocs.Services.Work.Interactions.AudioInteraction
 import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIRequestTokenUseCase
 import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIStartCallUseCase
 import com.bradesco.bravoip.impl.avaya.domain.usecases.base.AVResourceState
@@ -20,7 +19,6 @@ internal class AVVoIPImpl(
     private val avStartCallUseCase: AVIStartCallUseCase
 ) : BRAIVoIP, CoroutineScope {
 
-    private lateinit var voIPCall: AudioInteraction
     private val useCaseJob = SupervisorJob()
 
     override val coroutineContext: CoroutineContext

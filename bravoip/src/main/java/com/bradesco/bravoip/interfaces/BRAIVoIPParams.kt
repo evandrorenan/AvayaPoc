@@ -1,7 +1,5 @@
 package com.bradesco.bravoip.interfaces
 
-import com.bradesco.bravoip.impl.avaya.domain.model.interfaces.AVITokenRequest
-
 interface BRAIVoIPParams {
 
     val context: String

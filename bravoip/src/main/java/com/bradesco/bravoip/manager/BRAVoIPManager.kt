@@ -2,12 +2,12 @@ package com.bradesco.bravoip.manager
 
 import android.app.Application
 import com.bradesco.bravoip.impl.avaya.di.braVoIPKoinMainModule
-import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIStartCallUseCase
 import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIRequestTokenUseCase
+import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIStartCallUseCase
 import com.bradesco.bravoip.impl.avaya.presentation.AVVoIPImpl
 import com.bradesco.bravoip.interfaces.BRAIVoIP
-import com.bradesco.bravoip.interfaces.BRAIVoIPParams
 import com.bradesco.bravoip.interfaces.BRAIVoIPEventListener
+import com.bradesco.bravoip.interfaces.BRAIVoIPParams
 import org.koin.core.context.loadKoinModules
 import org.koin.java.KoinJavaComponent.get
 

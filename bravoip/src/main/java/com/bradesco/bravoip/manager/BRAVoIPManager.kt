@@ -1,9 +1,12 @@
 package com.bradesco.bravoip.manager
 
+import android.app.Application
 import com.bradesco.bravoip.impl.avaya.di.braVoIPKoinMainModule
-import com.bradesco.bravoip.impl.avaya.domain.usecases.AVITokenRequestUseCase
+import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIStartCallUseCase
+import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIRequestTokenUseCase
 import com.bradesco.bravoip.impl.avaya.presentation.AVVoIPImpl
 import com.bradesco.bravoip.interfaces.BRAIVoIP
+import com.bradesco.bravoip.interfaces.BRAIVoIPParams
 import com.bradesco.bravoip.interfaces.BRAIVoIPEventListener
 import org.koin.core.context.loadKoinModules
 import org.koin.java.KoinJavaComponent.get
@@ -19,11 +22,16 @@ class BRAVoIPManager {
         private lateinit var INSTANCE: BRAVoIPManager
         private lateinit var braVoIPStore: BRAVoIPStore
 
-        fun getInstance(eventListener: BRAIVoIPEventListener): BRAVoIPManager {
+        fun getInstance(
+            androidApplication: Application,
+            voIPParams: BRAIVoIPParams,
+            eventListener: BRAIVoIPEventListener): BRAVoIPManager {
             if (!::braVoIPStore.isInitialized) {
                 getInstance()
             }
-            braVoIPStore.setEventListener(eventListener)
+            braVoIPStore.voIPParams = voIPParams
+            braVoIPStore.eventListener = eventListener
+            braVoIPStore.setApplication(androidApplication)
 
             return getInstance()
         }
@@ -41,7 +49,9 @@ class BRAVoIPManager {
             braVoIPStore = BRAVoIPStore()
 
             braVoIP = AVVoIPImpl(
-                get(AVITokenRequestUseCase::class.java)
+                braVoIPStore,
+                get(AVIRequestTokenUseCase::class.java),
+                get(AVIStartCallUseCase::class.java)
             )
 
             return INSTANCE

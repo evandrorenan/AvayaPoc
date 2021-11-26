@@ -1,10 +1,15 @@
 package com.bradesco.bravoip.notarchitected.listeners
 
 import com.avaya.ocs.Services.Device.Video.Enums.CallQuality
+import com.avaya.ocs.Services.Work.Enums.AudioDeviceError
+import com.avaya.ocs.Services.Work.Enums.AudioDeviceType
 import com.avaya.ocs.Services.Work.Enums.InteractionError
 import com.avaya.ocs.Services.Work.Interactions.Listeners.AudioInteractionListener
+import com.avaya.ocs.Services.Work.Interactions.Listeners.OnAudioDeviceChangeListener
+import com.bradesco.bravoip.interfaces.BRAIVoIPEventListener
 
-class AVAudioInteractionListener : AudioInteractionListener {
+class AVVoIPCallListener  {
+
     override fun onInteractionInitiating() {
         TODO("Not yet implemented")
     }
@@ -50,6 +55,18 @@ class AVAudioInteractionListener : AudioInteractionListener {
     }
 
     override fun onInteractionQualityChanged(p0: CallQuality?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAudioDeviceListChanged(p0: MutableList<AudioDeviceType>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAudioDeviceChanged(p0: AudioDeviceType?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAudioDeviceError(p0: AudioDeviceError?) {
         TODO("Not yet implemented")
     }
 }

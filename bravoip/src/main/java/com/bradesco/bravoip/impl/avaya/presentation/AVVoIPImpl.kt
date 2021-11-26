@@ -1,37 +1,38 @@
 package com.bradesco.bravoip.impl.avaya.presentation
 
-import com.bradesco.bravoip.impl.avaya.domain.usecases.AVITokenRequestUseCase
-import com.bradesco.bravoip.notarchitected.helpers.AVAuthorizationHandler
-import com.bradesco.bravoip.notarchitected.helpers.AVPlatformPreferences
+import com.avaya.ocs.Services.Work.Interactions.AudioInteraction
+import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIRequestTokenUseCase
+import com.bradesco.bravoip.impl.avaya.domain.usecases.AVIStartCallUseCase
+import com.bradesco.bravoip.impl.avaya.domain.usecases.base.AVResourceState
 import com.bradesco.bravoip.interfaces.BRAIVoIP
+import com.bradesco.bravoip.interfaces.BRAIVoIPCall
+import com.bradesco.bravoip.interfaces.BRAIVoIPEventListener
+import com.bradesco.bravoip.manager.BRAVoIPStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
+import kotlin.coroutines.CoroutineContext
 
 internal class AVVoIPImpl(
-    private val avTokenUseCase: AVITokenRequestUseCase
-) : BRAIVoIP {
+    private val braVoIPStore: BRAVoIPStore,
+    private val avRequestTokenUseCase: AVIRequestTokenUseCase,
+    private val avStartCallUseCase: AVIStartCallUseCase
+) : BRAIVoIP, CoroutineScope {
 
-    private val voipPreferences = AVPlatformPreferences("urlRest", 8080)
+    private lateinit var voIPCall: AudioInteraction
+    private val useCaseJob = SupervisorJob()
 
-    override fun requestToken(otp: String) {
-        avTokenUseCase.execute()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.IO + useCaseJob
+
+    override fun requestToken() : Flow<AVResourceState<String>> {
+        return avRequestTokenUseCase.execute()
     }
 
-    private val authHandler: AVAuthorizationHandler by lazy {
-        AVAuthorizationHandler(voipPreferences)
-    }
-
-    override fun startCall(token: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun mute() {
-        TODO("Not yet implemented")
-    }
-
-    override fun sendDTMF(digit: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun hangUp() {
-        TODO("Not yet implemented")
+    override fun startCall(token: String, eventListener: BRAIVoIPEventListener): Flow<AVResourceState<BRAIVoIPCall>> {
+        braVoIPStore.token = token
+        braVoIPStore.eventListener = eventListener
+        return avStartCallUseCase.execute()
     }
 }

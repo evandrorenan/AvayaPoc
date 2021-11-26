@@ -1,12 +1,6 @@
 package com.bradesco.bravoip.interfaces
 
-interface BRAIVoIPEventListener {
+import com.avaya.callprovider.cp.handlers.OnAudioDeviceChangeListener
+import com.avaya.ocs.Services.Work.Interactions.Listeners.AudioInteractionListener
 
-    fun onAuthTokenGenerated(token: String)
-
-    fun onCallInitiating()
-
-    fun onCallActive()
-
-    fun onCallAudioMuteStatusChanged(muted: Boolean)
-}
+interface BRAIVoIPEventListener : AudioInteractionListener, OnAudioDeviceChangeListener
